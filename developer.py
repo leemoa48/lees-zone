@@ -111,7 +111,8 @@ while True:
         writer.writerows(transaction)
         
         
-        
+        # this is suppose to read from the csv file alreadey created from the above code, and detec the lastline and continue to
+        # increment the invoice number from there
     with open(filename, 'r+', encoding='utf-8', newline='') as output_file:
         reader = csv.reader(output_file)
         lastline = ''
