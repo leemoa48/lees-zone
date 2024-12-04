@@ -19,13 +19,7 @@ class Register(ttk.Frame):
     @classmethod      
     def verify(cls):   
         filename = 'customer_data.csv'
-        with open(filename, 'r', encoding='utf-8', newline='') as customer_data: 
-            # sample = ''
-            # for i in range(3):
-            #     sample += customer_data.readline()
-            # customer_data_dialect = csv.Sniffer().sniff(sample)  
-            # customer_data.seek(0)    
-            # reader = csv.DictReader(customer_data, dialect=customer_data_dialect)
+        with open(filename, 'r', encoding='utf-8', newline='') as customer_data:            
             reader = csv.DictReader(customer_data, delimiter='\t')            
             val = [] 
             user = []
@@ -472,14 +466,7 @@ class BankAccount(Register):
 
 root = tk.Tk()
 root.title("Home")
-# root.geometry('1260x630+150+50')
 root.geometry('1200x800+150+50')
-
-# for transparent window
-# note that root has wm.attributes bcs it is the parent window
-# root.wm_attributes('-topmost', True) 
-# root.wm_attributes('-alpha', 0.5) 
-# root.wm_attributes('-transparentcolor', '#d4d4e2')
 
 reg = Register()
 reg.gui()
