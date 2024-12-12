@@ -463,11 +463,12 @@ class BankAccount(Register):
     def email_alert(self):
         pass
 
-def init():
-    root = tk.Tk()
-    root.title("Home")
-    root.geometry('1200x800+150+50')
-    root.mainloop()
+root = tk.Tk()
+root.title("Home")
+root.geometry('1200x800+150+50')
+
+def init():    
+    reg.mainloop()
     reg = Register()
     reg.gui()
     
