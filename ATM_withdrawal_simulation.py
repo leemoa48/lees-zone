@@ -8,6 +8,7 @@ import datetime
 import csv
 from os import SEEK_SET
 import os
+import pymysql
 
 
 zcdb = ZipCodeDatabase()
@@ -19,22 +20,21 @@ class Register(ttk.Frame):
     @classmethod      
     def verify(cls):   
         filename = 'customer_data.csv'
-        if os.path.exists(filename):
-            with open(filename, 'r', encoding='utf-8', newline='') as customer_data:            
-                reader = csv.DictReader(customer_data, delimiter='\t')            
-                val = [] 
-                user = []
-                cls.ent_data = {}                 
-                for row in reader:                 
-                    val.append([row['FirstName'], row['LastName'], row['Username'], row['Password']]) 
-                    user.append([row['Username'], row['Password']]) 
-                    cls.fname = row['FirstName']
-                    cls.lname = row['LastName']
-                    cls.usern = row['Username']
-                    cls.ent_data[row['Username']] = row                 
-            cls.data = val[:] 
-            cls.data_l = user[:]
-                                                   
+        with open(filename, 'r', encoding='utf-8', newline='') as customer_data:             
+            reader = csv.DictReader(customer_data, delimiter='\t')            
+            val = [] 
+            user = []
+            cls.ent_data = {}                 
+            for row in reader:                 
+                val.append([row['FirstName'], row['LastName'], row['Username'], row['Password']]) 
+                user.append([row['Username'], row['Password']]) 
+                cls.fname = row['FirstName']
+                cls.lname = row['LastName']
+                cls.usern = row['Username']
+                cls.ent_data[row['Username']] = row                 
+        cls.data = val[:] 
+        cls.data_l = user[:]
+                                            
 
     def create_label_frame(cls, parent, text, rol, col):
         label = tk.LabelFrame(parent,text=text, background='green', fg='white')
@@ -72,7 +72,7 @@ class Register(ttk.Frame):
         return sorted(set([value.city for _, value in zcdb.items()]))                
 
     def __init__(self):
-        super().__init__()  
+        super().__init__()        
         self.verify()
         self.FN = self.fname
         self.LN = self.lname
@@ -85,7 +85,7 @@ class Register(ttk.Frame):
         
     def gui(self):
 
-        self.b_image = Image.open("C:\\Users\\laita\\OneDrive\\Documents\\second_page.jpeg")
+        self.b_image = Image.open(".//second_page.jpeg")
         self.b_image = self.b_image.resize((1200, 800), Image.Resampling.LANCZOS)
         self.b_image = ImageTk.PhotoImage(self.b_image)  
              
@@ -238,22 +238,21 @@ class Login(Register):
         super().__init__()
 
     def gui(self):
-        self.bgimage = Image.open("C:\\Users\\laita\\OneDrive\\Documents\\home_page.jpeg")
+        self.bgimage = Image.open(".//home_page.jpeg")
         self.bgimage = self.bgimage.resize((1200, 800), Image.Resampling.LANCZOS)
         self.bgimage = ImageTk.PhotoImage(self.bgimage)
 
-        self.pack(expand=True, fill='both', padx=10, pady=10)
-        # self.columnconfigure(0, weight=1)
+        self.pack(expand=True, fill='both', padx=10, pady=10)        
 
         self.fr = ttk.Label(self, image=self.bgimage)
         self.fr.pack(expand=True, fill='both', padx=10, pady=10)
-        self.fr.columnconfigure((3), weight=1)
-        self.fr.rowconfigure((0), weight=1)
+        # self.fr.columnconfigure((3), weight=1)
+        # self.fr.rowconfigure((0), weight=1)
 
         self.lframe = self.create_label_frame(self.fr, "Login Page", 0, 0)
 
-        self.lframe.rowconfigure(3, weight=1)
-        self.lframe.columnconfigure((0), weight=1)
+        # self.lframe.rowconfigure(3, weight=1)
+        # self.lframe.columnconfigure((0), weight=1)
         ulabel = self.create_label(self.lframe, "Username: ", 0, 0)
         self.lusername_entry = self.create_entry(self.lframe, 1, 0, None)
         plabel = self.create_label(self.lframe, 'Password: ', 2, 0)
@@ -318,7 +317,7 @@ class BankAccount(Register):
         self.value = tk.StringVar()   
 
     def account_gui(self): 
-        self.bg = Image.open("C:\\Users\\laita\\OneDrive\\Documents\\last_page.jpeg")
+        self.bg = Image.open(".//last_page.jpeg")
         self.bg = self.bg.resize((1200, 800), Image.Resampling.LANCZOS)
         self.bg = ImageTk.PhotoImage(self.bg)
         self.pack(expand=True, fill='both', padx=5, pady=5)
@@ -368,13 +367,9 @@ class BankAccount(Register):
         self.entry = ttk.Entry(self.mainframe, textvariable=self.value)
         self.entry.grid(row=5, column=2, columnspan=3, sticky='ns', padx=5, pady=5)
 
-        button = ttk.Button(self.mainframe, text='Exit', command=self.save_dat)
-        button.grid(row=6, column=0, padx=5, pady=5, sticky='ns')
+        exit_button = ttk.Button(self.mainframe, text='Exit', command=self.destroy)
+        exit_button.grid(row=6, column=0, padx=5, pady=5, sticky='ns')
 
-    def save_dat(self):
-        self.save_record()        
-        self.quit()
-        
 
     def balanced(self):
         return int(self.detail[self.FN]['balance']) if self.FN in self.detail else 0       
