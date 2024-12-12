@@ -19,21 +19,22 @@ class Register(ttk.Frame):
     @classmethod      
     def verify(cls):   
         filename = 'customer_data.csv'
-        with open(filename, 'r', encoding='utf-8', newline='') as customer_data:            
-            reader = csv.DictReader(customer_data, delimiter='\t')            
-            val = [] 
-            user = []
-            cls.ent_data = {}                 
-            for row in reader:                 
-                val.append([row['FirstName'], row['LastName'], row['Username'], row['Password']]) 
-                user.append([row['Username'], row['Password']]) 
-                cls.fname = row['FirstName']
-                cls.lname = row['LastName']
-                cls.usern = row['Username']
-                cls.ent_data[row['Username']] = row                 
-        cls.data = val[:] 
-        cls.data_l = user[:]
-        # print(cls.ent_data)                                       
+        if os.path.exists(filename):
+            with open(filename, 'r', encoding='utf-8', newline='') as customer_data:            
+                reader = csv.DictReader(customer_data, delimiter='\t')            
+                val = [] 
+                user = []
+                cls.ent_data = {}                 
+                for row in reader:                 
+                    val.append([row['FirstName'], row['LastName'], row['Username'], row['Password']]) 
+                    user.append([row['Username'], row['Password']]) 
+                    cls.fname = row['FirstName']
+                    cls.lname = row['LastName']
+                    cls.usern = row['Username']
+                    cls.ent_data[row['Username']] = row                 
+            cls.data = val[:] 
+            cls.data_l = user[:]
+                                                   
 
     def create_label_frame(cls, parent, text, rol, col):
         label = tk.LabelFrame(parent,text=text, background='green', fg='white')
@@ -470,5 +471,4 @@ root.geometry('1200x800+150+50')
 
 reg = Register()
 reg.gui()
-
 root.mainloop()
