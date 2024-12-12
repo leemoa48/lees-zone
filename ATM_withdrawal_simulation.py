@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -86,7 +87,7 @@ class Register(ttk.Frame):
     def gui(self):
 
         self.b_image = Image.open(".//second_page.jpeg")
-        self.b_image = self.b_image.resize((1200, 800), Image.Resampling.LANCZOS)
+        self.b_image = self.b_image.resize((1920, 1200), Image.Resampling.LANCZOS)
         self.b_image = ImageTk.PhotoImage(self.b_image)  
              
         self.pack(expand=True, fill='both', padx=5, pady=5)        
@@ -94,8 +95,7 @@ class Register(ttk.Frame):
         self.frame = ttk.Label(self,image=self.b_image)
         self.frame.pack(expand=True, fill='both', padx=5, pady=5)
         
-        self.frame.rowconfigure((0), weight=1, uniform='a')
-        self.frame.columnconfigure((0), weight=1) 
+        self.frame.rowconfigure(0, weight=1, uniform='a')
         for widget in self.frame.winfo_children():
             widget.grid_configure(padx=5, pady=5, columnspan=1)  
 
@@ -132,9 +132,7 @@ class Register(ttk.Frame):
         self.password = self.create_entry(label_frame, 1, 1,'*')
         
         # contact information
-        label_frame = self.create_label_frame(self.frame, 'Contact Information', 2, 0)  
-        # label_frame.rowconfigure(0, weight=1)
-        label_frame.columnconfigure((0,1,2), weight=1) 
+        label_frame = self.create_label_frame(self.frame, 'Contact Information', 2, 0)         
         for widget in label_frame.winfo_children():
             widget.grid_configure(padx=5, pady=5, columnspan=3)
 
@@ -457,7 +455,6 @@ class BankAccount(Register):
 
     def email_alert(self):
         pass
-        
 
 root = tk.Tk()
 root.title("Home")
@@ -467,8 +464,3 @@ def init():
     reg = Register()
     reg.gui()
     reg.mainloop()
-    
-    
-
-
-
